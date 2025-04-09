@@ -1,0 +1,8 @@
+CREATE TABLE categories
+(
+    category_id BIGINT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(50) NOT NULL,
+    status      VARCHAR(50) NOT NULL DEFAULT 'REGULAR',
+    created_at  TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
