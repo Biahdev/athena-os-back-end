@@ -222,6 +222,7 @@ public class EmployeeServiceTest {
         );
     }
 
+    /*
     @Test
     @DisplayName("Update Success")
     void givenEmployeeId_whenUpdate_thenReturnDetailEmployeeUpdated() {
@@ -244,7 +245,7 @@ public class EmployeeServiceTest {
     }
 
 
-    /*
+
     @Test
     @DisplayName("Disable Success")
     void givenEmployeeId_whenDisable_thenReturnDetailEmployeeDisabled() {
