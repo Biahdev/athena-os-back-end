@@ -4,7 +4,7 @@ WORKDIR /workspace
 COPY pom.xml .
 COPY src src
 
-RUN apk add --no-cache maven curl && \
+RUN apk add --no-cache maven && \
     mvn clean package -DskipTests && \
     mkdir -p /layers && \
     java -Djarmode=layertools -jar target/*.jar extract --destination /layers
@@ -16,7 +16,7 @@ WORKDIR /app
 
 RUN addgroup -S spring && \
     adduser -S spring -G spring && \
-    apk add --no-cache tzdata curl && \
+    apk add --no-cache tzdata && \
     ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     rm -rf /var/cache/apk/*
 
@@ -24,6 +24,9 @@ COPY --from=builder --chown=spring:spring /layers/dependencies/ ./
 COPY --from=builder --chown=spring:spring /layers/spring-boot-loader/ ./
 COPY --from=builder --chown=spring:spring /layers/snapshot-dependencies/ ./
 COPY --from=builder --chown=spring:spring /layers/application/ ./
+
+HEALTHCHECK --interval=30s --timeout=3s \
+    CMD wget -qO- http://localhost:8080/health/api | grep -q "UP" || exit 1
 
 USER spring
 
