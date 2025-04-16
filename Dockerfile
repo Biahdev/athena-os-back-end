@@ -1,39 +1,32 @@
-# ============ ESTÁGIO 1: Build e extração ============
+# ============ BUILD STAGE ============
 FROM eclipse-temurin:21-jdk-alpine AS builder
 
-WORKDIR /application
+WORKDIR /workspace
 COPY pom.xml .
 COPY src src
 
 RUN apk add --no-cache maven && \
     mvn clean package -DskipTests && \
-    java -Djarmode=layertools -jar target/*.jar extract
+    mkdir -p /layers && \
+    java -Djarmode=layertools -jar target/*.jar extract --destination /layers
 
-RUN jlink \
-    --add-modules java.base,java.logging,java.sql,jdk.unsupported,java.desktop,java.management,jdk.crypto.ec,java.naming \
-    --strip-debug \
-    --no-man-pages \
-    --no-header-files \
-    --output /jlink-runtime
 
-FROM alpine:3.19
-WORKDIR /application
+# ============ PRODUCTION STAGE ============
+FROM eclipse-temurin:21-jre-alpine
 
-RUN addgroup -S appgroup && \
-    adduser -S appuser -G appgroup && \
-    apk add --no-cache tzdata musl-locales && \
-    ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+WORKDIR /app
 
-COPY --from=builder /jlink-runtime /opt/jlink-runtime
-COPY --from=builder /application/dependencies/ ./
-COPY --from=builder /application/spring-boot-loader/ ./
-COPY --from=builder /application/snapshot-dependencies/ ./
-COPY --from=builder /application/application/ ./
+RUN addgroup -S spring && \
+    adduser -S spring -G spring && \
+    apk add --no-cache tzdata && \
+    ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
+    rm -rf /var/cache/apk/*
 
-# Configura PATH do Java
-ENV PATH="/opt/jlink-runtime/bin:${PATH}"
-USER appuser
+COPY --from=builder --chown=spring:spring /layers/dependencies/ ./
+COPY --from=builder --chown=spring:spring /layers/spring-boot-loader/ ./
+COPY --from=builder --chown=spring:spring /layers/snapshot-dependencies/ ./
+COPY --from=builder --chown=spring:spring /layers/application/ ./
 
-EXPOSE 8080
+USER spring
 
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
