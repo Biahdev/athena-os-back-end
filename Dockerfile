@@ -4,7 +4,7 @@ WORKDIR /workspace
 COPY pom.xml .
 COPY src src
 
-RUN apk add --no-cache maven && \
+RUN apk add --no-cache maven curl && \
     mvn clean package -DskipTests && \
     mkdir -p /layers && \
     java -Djarmode=layertools -jar target/*.jar extract --destination /layers
