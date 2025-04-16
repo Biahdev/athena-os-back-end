@@ -25,8 +25,8 @@ COPY --from=builder --chown=spring:spring /layers/spring-boot-loader/ ./
 COPY --from=builder --chown=spring:spring /layers/snapshot-dependencies/ ./
 COPY --from=builder --chown=spring:spring /layers/application/ ./
 
-HEALTHCHECK --interval=30s --timeout=3s \
-    CMD wget -qO- http://localhost:8080/health/api | grep -q "UP" || exit 1
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD wget -qO- http://localhost:8080/health/api | grep -q "OK" || exit 1
 
 USER spring
 
