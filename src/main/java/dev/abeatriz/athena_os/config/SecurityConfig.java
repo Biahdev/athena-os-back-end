@@ -59,7 +59,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/health/**").permitAll()
+                        .requestMatchers("/health/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll() //TODO: IF para aparecer apenas caso não seja prod
                         .anyRequest().authenticated()
                 )
