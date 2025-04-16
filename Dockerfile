@@ -1,4 +1,3 @@
-# ============ BUILD STAGE ============
 FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /workspace
@@ -11,7 +10,6 @@ RUN apk add --no-cache maven && \
     java -Djarmode=layertools -jar target/*.jar extract --destination /layers
 
 
-# ============ PRODUCTION STAGE ============
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app

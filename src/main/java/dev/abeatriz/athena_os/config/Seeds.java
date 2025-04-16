@@ -56,7 +56,7 @@ public class Seeds implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (false) {
+        if (true) {
             createUsers();
             createProductOptionsValues();
 
