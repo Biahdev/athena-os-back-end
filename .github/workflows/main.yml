@@ -1,15 +1,14 @@
 name: CI - Pipeline - Main
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
   pull_request:
     types:
       - opened
       - reopened
       - synchronize
       - ready_for_review
-    branches:
-      - main
+    branches: [ "*" ]
   workflow_dispatch:
 jobs:
   run-tests:
@@ -28,5 +27,5 @@ jobs:
         run: sudo apt update && sudo apt install -y maven
 
       - name: Run Tests with Maven
-        run: mvn test -e -X
+        run: mvn test -Dspring.profiles.active=test -e -X
 
