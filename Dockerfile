@@ -16,7 +16,7 @@ WORKDIR /app
 
 RUN addgroup -S spring && \
     adduser -S spring -G spring && \
-    apk add --no-cache tzdata && \
+    apk add --no-cache tzdata curl && \
     ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
 COPY --from=builder --chown=spring:spring /layers/dependencies/ ./
