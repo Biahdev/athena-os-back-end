@@ -22,5 +22,4 @@ class AthenaOsApplicationTests {
     void contextLoads() {
 
     }
-
 }
