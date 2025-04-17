@@ -74,7 +74,7 @@ public class CategoryServiceTest {
         // Then
         assertNotNull(newCategory);
         assertEquals(newCategory, categoryDetailDTO);
-        assertEquals(1L, 3L);
+        assertEquals(1L, newCategory.categoryId());
         verify(mapperMock, times(1)).toEntity(any(CategoryCreateUpdateDTO.class));
         verify(mapperMock, times(1)).toDTO(any(Category.class));
         verify(repository, times(1)).save(categoryCategory);
