@@ -1,9 +1,15 @@
 name: CI - Pipeline - Main
 on:
   push:
-    branches-ignore: [ "main" ]
+    branches: [ "main" ]
   pull_request:
-    branches-ignore: [ "main" ]
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+    branches:
+      - main
   workflow_dispatch:
 jobs:
   run-tests:
@@ -22,4 +28,5 @@ jobs:
         run: sudo apt update && sudo apt install -y maven
 
       - name: Run Tests with Maven
-        run: mvn test
+        run: mvn test -e -X
+
