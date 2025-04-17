@@ -51,12 +51,13 @@ public class Seeds implements CommandLineRunner {
     private static final Random random = new Random();
     private List<OptionValueDTO> optionsValue = new ArrayList<>();
     private List<OptionDTO> options;
+
     @Autowired
     private ProductRepository productRepository;
 
     @Override
     public void run(String... args) {
-        if (false) {
+        if (true) {
             createUsers();
             createProductOptionsValues();
 

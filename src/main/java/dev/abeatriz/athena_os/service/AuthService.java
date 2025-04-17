@@ -25,7 +25,7 @@ public class AuthService {
     private String cookieName;
 
     @Value("${jwt.cookie.expiration}")
-    private String cookieExpiration;
+    private Long cookieExpiration;
 
     public AuthService(JwtEncoder jwtEncoder,
                        UserRepository userRepository,
@@ -45,12 +45,12 @@ public class AuthService {
         }
 
         var now = Instant.now();
-        var expiresIn = 86400L;
+        var expiresIn = this.cookieExpiration;
         var claims = JwtClaimsSet.builder()
                 .issuer("mybackend")
                 .subject(user.get().getUserId().toString())
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(expiresIn))
+                .expiresAt(now.plusSeconds(this.cookieExpiration))
                 .claim("userRole", "ROLE_" + user.get().getRole())
                 .claim("email", user.get().getEmail())
                 .build();
@@ -61,14 +61,13 @@ public class AuthService {
         jwtCookie.setHttpOnly(true);
         jwtCookie.setSecure(true);
         jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(((int) 86400L));
+        jwtCookie.setMaxAge(Math.toIntExact(this.cookieExpiration));
 
         response.addCookie(jwtCookie);
         response.setHeader("Set-Cookie", jwtCookie.getName() + "=" + jwtCookie.getValue() +
                 "; Path=" + jwtCookie.getPath() +
                 "; Max-Age=" + jwtCookie.getMaxAge() +
                 "; HttpOnly; SameSite=Lax");
-
     }
 
     public void logout(HttpServletResponse response) {
