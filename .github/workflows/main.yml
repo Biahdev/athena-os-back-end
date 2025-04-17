@@ -3,13 +3,7 @@ on:
   push:
     branches: [ "*" ]
   pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - ready_for_review
-    branches:
-      - main
+    branches: [ "*" ]
 jobs:
   run-tests:
     runs-on: ubuntu-latest
