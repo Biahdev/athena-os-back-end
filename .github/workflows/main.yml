@@ -1,9 +1,9 @@
 name: CI - Pipeline - Main
 on:
   push:
-    branches-ignore: ["main"]
+    branches-ignore: [ "main" ]
   pull_request:
-    branches-ignore: ["main"]
+    branches-ignore: [ "main" ]
   workflow_dispatch:
 jobs:
   run-tests:
@@ -18,5 +18,8 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Run Tests
-        run: ./mvnw test
+      - name: Update Maven
+        run: sudo apt update && sudo apt install -y maven
+
+      - name: Run Tests with Maven
+        run: mvn test
