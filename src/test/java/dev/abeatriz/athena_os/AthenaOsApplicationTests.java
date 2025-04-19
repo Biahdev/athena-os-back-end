@@ -14,6 +14,12 @@ import org.springframework.test.context.TestPropertySource;
         "jwt.secret.admin=123",
         "jwt.cookie.name=123",
         "jwt.cookie.expiration=200",
+        "jwt.public.key=classpath:app.pub",
+        "seeds.enabled=false",
+        "spring.mail.host=email@email",
+        "spring.mail.port=123",
+        "spring.mail.username=email@email",
+        "spring.mail.password=email@email",
         "front.url=localhost:4000"
 })
 class AthenaOsApplicationTests {
