@@ -55,9 +55,12 @@ public class Seeds implements CommandLineRunner {
     @Autowired
     private ProductRepository productRepository;
 
+    @Value("${seeds.enabled}")
+    Boolean seedsEnabled;
+
     @Override
     public void run(String... args) {
-        if (false) {
+        if (this.seedsEnabled) {
             createUsers();
             createProductOptionsValues();
 
