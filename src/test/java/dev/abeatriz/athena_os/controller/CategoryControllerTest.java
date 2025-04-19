@@ -70,7 +70,6 @@ public class CategoryControllerTest {
         categoryCreateDTO = new CategoryCreateUpdateDTO("Categoria 1", mapper.toString(CategoryStatus.ATIVO));
         categoryEntity = mapper.toEntity(categoryCreateDTO);
         categoryEntity.setCategoryId(1L);
-        System.out.println(categoryEntity);
         categoryDetailDTO = mapper.toDTO(categoryEntity);
 
         categoryCreateDTO2 = new CategoryCreateUpdateDTO("Categoria 2", mapper.toString(CategoryStatus.INATIVO));

@@ -2,6 +2,7 @@ package dev.abeatriz.athena_os.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -82,9 +83,6 @@ public class JwtCookieFilter extends OncePerRequestFilter {
         return Arrays.stream(request.getCookies())
                 .filter(cookie -> cookieName.equals(cookie.getName()))
                 .findFirst()
-                .map(cookie -> {
-                    System.out.println("Cookie JWT encontrado: " + cookie.getName() + "=" + cookie.getValue());
-                    return cookie.getValue();
-                });
+                .map(Cookie::getValue);
     }
 }

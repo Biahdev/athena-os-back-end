@@ -38,7 +38,6 @@ public class AuthService {
 
     public void login(LoginRequest loginRequest, HttpServletResponse response) {
         var user = userRepository.findByEmail(loginRequest.email());
-        System.out.println(user);
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, passwordEncoder)) {
             throw new BadCredentialsException("user or password is invalid!");
